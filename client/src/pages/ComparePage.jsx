@@ -21,7 +21,6 @@ export default function ComparePage() {
   const [isComparing, setIsComparing] = useState(false);
   const [error, setError] = useState(null);
 
-  // Load all loan products from MongoDB
   useEffect(() => {
     setIsLoading(true);
     apiService.getLoans()
@@ -29,7 +28,6 @@ export default function ComparePage() {
         const list = res.data?.data || [];
         setAllLoans(list);
 
-        // If user has less than 2 products selected, select top 2 by default
         const currentSelected = journeyData.comparisonLoanIds || [];
         if (currentSelected.length < 2 && list.length >= 2) {
           toggleCompareLoan(list[0]._id || list[0].id);
@@ -37,12 +35,11 @@ export default function ComparePage() {
         }
       })
       .catch(err => {
-        setError('Financial data could not be loaded.');
+        setError('Financial products could not be loaded.');
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-  // Run dynamic comparison when selection changes or amount changes
   const runComparison = async () => {
     const selectedIds = journeyData.comparisonLoanIds || [];
     if (selectedIds.length < 2) {
@@ -56,20 +53,19 @@ export default function ComparePage() {
     try {
       const response = await apiService.compareLoans({
         loanIds: selectedIds,
-        amount: journeyData.requestedAmount || 200000,
+        amount: journeyData.requestedAmount || 500000,
         tenure: journeyData.tenureMonths || 36
       });
 
       setComparisonResult(response.data?.data);
     } catch (err) {
       console.error('Comparison error:', err);
-      setError(err.response?.data?.error || 'No matching demo products found.');
+      setError(err.response?.data?.error || 'Unable to compare selected products.');
     } finally {
       setIsComparing(false);
     }
   };
 
-  // Auto-run comparison when loans or selection changes
   useEffect(() => {
     if (journeyData.comparisonLoanIds?.length >= 2) {
       runComparison();
@@ -77,32 +73,34 @@ export default function ComparePage() {
   }, [journeyData.comparisonLoanIds]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       <div>
-        <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-          Side-by-Side Product Benchmarking
-        </span>
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-2 flex items-center gap-2">
-          <Scale className="w-8 h-8 text-emerald-600" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight-800 border border-slate-700/80 text-xs font-medium text-emerald-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>Multi-Lender Amortization Matrix</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-ivory tracking-tight mt-2.5 flex items-center gap-2.5">
+          <Scale className="w-7 h-7 text-emerald-400" />
           {t.nav.compare}
         </h1>
-        <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-          Select 2 or 3 market bank loan products from MongoDB to dynamically evaluate interest rates, processing fees, total repayment costs, and pre-closure terms side-by-side.
+        <p className="text-xs sm:text-sm text-ivory-subtle mt-1 max-w-2xl leading-relaxed">
+          Select 2 or 3 market bank loan products to evaluate reducing interest rates, processing fees, pre-closure charges, and total repayment costs side-by-side.
         </p>
       </div>
 
       {/* Product Selection Bar */}
-      <Card className="p-5 bg-white border-slate-200 shadow-sm">
+      <Card className="p-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
-            <h3 className="text-sm font-bold text-slate-900">Choose Products to Compare (Select 2 or 3)</h3>
-            <p className="text-xs text-slate-500">
-              Comparing on loan amount: <strong className="text-emerald-700">₹{(journeyData.requestedAmount || 200000).toLocaleString('en-IN')}</strong> for <strong className="text-emerald-700">{journeyData.tenureMonths || 36} months</strong>
+            <h3 className="text-sm font-bold text-ivory">Choose Products to Compare (Select 2 or 3)</h3>
+            <p className="text-xs text-ivory-subtle mt-0.5">
+              Evaluating on loan amount: <strong className="text-ivory font-mono">₹{(journeyData.requestedAmount || 500000).toLocaleString('en-IN')}</strong> for <strong className="text-emerald-400 font-mono">{journeyData.tenureMonths || 36} months</strong>
             </p>
           </div>
 
           <Button
             size="sm"
+            variant="secondary"
             onClick={runComparison}
             isLoading={isComparing}
             icon={Scale}
@@ -112,7 +110,7 @@ export default function ComparePage() {
         </div>
 
         {/* Product Chips */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 pt-1">
           {allLoans.map((loan) => {
             const id = loan._id || loan.id;
             const isSelected = journeyData.comparisonLoanIds?.includes(id);
@@ -124,15 +122,15 @@ export default function ComparePage() {
                 onClick={() => toggleCompareLoan(id)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium border transition-all ${
                   isSelected
-                    ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-semibold shadow-2xs'
-                    : 'bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 shadow-2xs'
+                    ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300 font-semibold shadow-fintech-sm'
+                    : 'bg-midnight-950/70 border-slate-700/80 text-slate-300 hover:text-ivory hover:border-slate-600'
                 }`}
               >
-                <div className={`w-4 h-4 rounded-md flex items-center justify-center ${isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                <div className={`w-4 h-4 rounded flex items-center justify-center ${isSelected ? 'bg-emerald-600 text-white' : 'bg-midnight-800 text-slate-400'}`}>
                   {isSelected ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
                 </div>
                 <span>{loan.name}</span>
-                <span className="text-[10px] text-slate-500 font-mono">({loan.interestRate}%)</span>
+                <span className="text-[10px] text-ivory-dark font-mono">({loan.interestRate}%)</span>
               </button>
             );
           })}
@@ -152,7 +150,7 @@ export default function ComparePage() {
       )}
 
       {isComparing && (
-        <LoadingState message="Computing side-by-side repayment metrics and fee structures..." />
+        <LoadingState message="Computing side-by-side repayment amortization and fees..." />
       )}
     </div>
   );

@@ -3,48 +3,406 @@
 @tailwind utilities;
 
 @layer base {
+  /* ===== Dark Theme (default) — Whatin Pitch Black & Cyan ===== */
+  :root {
+    color-scheme: dark;
+
+    /* Pitch Black Surfaces (Whatin aesthetic) */
+    --midnight-950: 8 8 8;        /* #080808 - deep input/well backgrounds */
+    --midnight-900: 0 0 0;        /* #000000 - true pitch black base */
+    --midnight-850: 12 12 12;     /* #0c0c0c - elevated surface */
+    --midnight-800: 16 16 16;     /* #101010 - glass cards */
+    --midnight-750: 22 22 22;     /* #161616 - elevated hover surface */
+    --midnight-700: 32 32 32;     /* #202020 - sleek borders */
+    --midnight-600: 44 44 44;     /* #2c2c2c - hover borders */
+
+    /* Electric Cyan Accent (Whatin #00AEEF & #0077FF) */
+    --emerald-950: 4 18 32;       /* #041220 - subtle cyan dark container */
+    --emerald-900: 6 28 50;       /* #061c32 */
+    --emerald-800: 0 74 133;
+    --emerald-700: 0 95 204;
+    --emerald-600: 0 119 255;     /* #0077FF - Whatin primary */
+    --emerald-500: 0 174 239;     /* #00AEEF - Whatin secondary electric cyan */
+    --emerald-400: 56 189 248;    /* #38BDF8 - radiant cyan */
+    --emerald-300: 125 211 252;   /* #7DD3FC */
+    --emerald-200: 186 230 253;
+    --emerald-100: 224 242 254;
+    --emerald-50: 240 249 255;
+
+    /* Crisp White Typography (Whatin #FFFFFF & #A1A1AA) */
+    --ivory: 255 255 255;         /* #FFFFFF - crisp white headings */
+    --ivory-muted: 228 228 231;   /* #E4E4E7 - high-contrast subtitle */
+    --ivory-subtle: 161 161 170;  /* #A1A1AA - Whatin text-secondary */
+    --ivory-dark: 113 113 122;    /* #71717A - subtle caption */
+
+    /* Slate scale tuned for true pitch black */
+    --slate-50: 255 255 255;
+    --slate-100: 244 244 245;
+    --slate-200: 228 228 231;
+    --slate-300: 212 212 216;     /* #D4D4D8 - readable light body text */
+    --slate-400: 161 161 170;     /* #A1A1AA */
+    --slate-500: 113 113 122;     /* #71717A */
+    --slate-600: 63 63 70;
+    --slate-700: 39 39 42;        /* #27272A - input borders */
+    --slate-800: 28 28 30;        /* #1C1C1E - sleek card borders */
+    --slate-900: 14 14 14;        /* #0E0E0E */
+    --slate-950: 6 6 6;           /* #060606 */
+
+    /* Whatin Vibrant Teal (#00D4AA) */
+    --teal-50: 240 253 250;
+    --teal-100: 204 251 241;
+    --teal-200: 153 246 228;
+    --teal-300: 94 234 212;
+    --teal-400: 45 212 191;
+    --teal-500: 0 212 170;        /* #00D4AA - Whatin teal */
+    --teal-600: 13 148 136;
+    --teal-700: 15 118 110;
+    --teal-800: 17 94 89;
+    --teal-900: 19 78 74;
+    --teal-950: 4 47 46;
+
+    /* Ambient glows (Whatin top radial illumination) */
+    --glow-a: rgba(255, 255, 255, 0.05);
+    --glow-b: rgba(0, 174, 239, 0.07);
+
+    /* Shadows (dark) */
+    --shadow-fintech-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --shadow-fintech-md: 0 12px 28px -6px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --shadow-fintech-lg: 0 24px 48px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.09);
+    --shadow-fintech-emerald: 0 10px 30px -6px rgba(0, 174, 239, 0.35);
+
+    /* Whatin Gold tokens (#FFB800) */
+    --gold-600: #d49a00;
+    --gold-500: #FFB800;          /* Whatin signature accent gold */
+    --gold-400: #ffc933;
+    --gold-300: #fedb77;
+    --gold-100: #fef3c7;
+  }
+
+  /* ===== Bright (Paytm White) Theme ===== */
+  .light {
+    color-scheme: light;
+
+    /* Paytm Crisp Light Canvas & Surfaces */
+    --midnight-950: 241 245 250;   /* inputs / nested cards */
+    --midnight-900: 245 247 251;   /* clean Paytm light canvas (#F5F7FB) */
+    --midnight-850: 255 255 255;   /* pure white elevated surface */
+    --midnight-800: 255 255 255;   /* pure white cards (#FFFFFF) */
+    --midnight-750: 250 252 255;   /* soft hover white surface */
+    --midnight-700: 226 234 245;   /* clean subtle border */
+    --midnight-600: 198 214 235;   /* hover border */
+
+    /* Iconic Paytm Cyan-Blue Palette */
+    --emerald-50: 240 249 255;    /* #F0F9FF - ultra-soft cyan wash */
+    --emerald-100: 224 242 254;   /* #E0F2FE - light cyan pill */
+    --emerald-200: 186 230 253;   /* #BAE6FD - soft cyan border */
+    --emerald-300: 0 114 178;     /* #0072B2 - high-contrast bold blue */
+    --emerald-400: 0 136 204;     /* #0088CC - vibrant readable Paytm blue */
+    --emerald-500: 0 186 242;     /* #00BAF2 - signature Paytm Electric Cyan */
+    --emerald-600: 0 153 221;     /* #0099DD - primary action hover */
+    --emerald-700: 0 122 184;     /* #007AB8 - primary button edge */
+    --emerald-800: 0 85 133;      /* #005585 */
+    --emerald-900: 0 58 97;       /* #003A61 */
+    --emerald-950: 235 247 255;   /* #EBF7FF - soft cyan active badge background */
+
+    /* Deep Paytm Royal Navy Typography (100% sharp & readable) */
+    --ivory: 0 41 112;            /* #002970 - Authentic Paytm Royal Navy */
+    --ivory-muted: 15 23 42;      /* #0F172A - Slate 900 for dark strong text */
+    --ivory-subtle: 51 65 85;     /* #334155 - Slate 700 for crystal-clear body */
+    --ivory-dark: 100 116 139;    /* #64748B - Slate 500 for secondary captions */
+
+    /* High-contrast Slate scale (never washed out) */
+    --slate-50: 248 250 252;
+    --slate-100: 241 245 249;
+    --slate-200: 226 232 240;
+    --slate-300: 51 65 85;        /* #334155 - Slate 700 for high-contrast labels */
+    --slate-400: 71 85 105;       /* #475569 - Slate 600 */
+    --slate-500: 100 116 139;     /* #64748B - Slate 500 */
+    --slate-600: 148 163 184;
+    --slate-700: 203 213 225;     /* #CBD5E1 - input borders */
+    --slate-800: 226 232 240;     /* #E2E8F0 - card borders */
+    --slate-900: 241 245 249;
+    --slate-950: 248 250 252;
+
+    /* Paytm Success Green */
+    --teal-50: 240 253 250;
+    --teal-100: 204 251 241;
+    --teal-200: 167 243 208;
+    --teal-300: 4 120 87;         /* #047857 - deep green text */
+    --teal-400: 5 150 105;        /* #059669 - rich emerald green */
+    --teal-500: 0 181 98;         /* #00B562 - Paytm Green */
+    --teal-600: 0 161 88;
+    --teal-700: 0 133 72;
+    --teal-800: 6 95 70;
+    --teal-900: 6 78 59;
+    --teal-950: 236 253 245;
+
+    /* Rich Amber (High-contrast Gold on white) */
+    --gold-600: #92400e;
+    --gold-500: #d97706;
+    --gold-400: #b45309;          /* rich warm amber, sharp on white */
+    --gold-300: #78350f;
+    --gold-100: #fef3c7;
+
+    /* Clean Paytm Shadows */
+    --shadow-fintech-sm: 0 2px 6px -1px rgba(0, 41, 112, 0.07), 0 0 0 1px rgba(0, 41, 112, 0.04);
+    --shadow-fintech-md: 0 6px 20px -3px rgba(0, 41, 112, 0.07), 0 1px 3px 0 rgba(0, 41, 112, 0.04);
+    --shadow-fintech-lg: 0 14px 32px -6px rgba(0, 41, 112, 0.11), 0 2px 6px -1px rgba(0, 41, 112, 0.04);
+    --shadow-fintech-emerald: 0 8px 24px -4px rgba(0, 186, 242, 0.32);
+
+    /* Ambient glows — subtle cyan wash */
+    --glow-a: rgba(0, 186, 242, 0.06);
+    --glow-b: rgba(0, 41, 112, 0.03);
+  }
+
   body {
-    @apply bg-[#f8fafc] text-slate-900 min-h-screen font-sans;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.04) 0px, transparent 40%),
-      radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.03) 0px, transparent 40%);
+    background-color: rgb(var(--midnight-900));
+    color: rgb(var(--ivory));
+    min-height: 100vh;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image:
+      radial-gradient(at 15% 10%, var(--glow-a) 0px, transparent 45%),
+      radial-gradient(at 85% 85%, var(--glow-b) 0px, transparent 50%);
     background-attachment: fixed;
   }
 }
 
-/* Custom smooth light scrollbar */
+/* Refined fintech scrollbar (theme aware) */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: rgb(var(--midnight-900));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: rgb(var(--midnight-700));
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgb(var(--midnight-600));
 }
 
-@keyframes fadeIn {
-  from {
+/* CSS 3D Perspective and Depth Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.translate-z-10 {
+  transform: translateZ(10px);
+}
+
+.translate-z-20 {
+  transform: translateZ(20px);
+}
+
+.translate-z-30 {
+  transform: translateZ(30px);
+}
+
+.translate-z-40 {
+  transform: translateZ(40px);
+}
+
+/* Subtle background tech grid (theme aware) */
+.subtle-grid {
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to bottom, rgb(var(--slate-700) / 0.06) 1px, transparent 1px),
+    linear-gradient(to left, rgb(var(--slate-700) / 0.06) 1px, transparent 1px);
+}
+
+/* Layered Fintech Card Utility (theme aware) */
+.fintech-card {
+  background-color: rgba(16, 16, 16, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+.fintech-card-hover {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fintech-card-hover:hover {
+  border-color: rgba(0, 174, 239, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -10px rgba(0, 0, 0, 0.8), 0 0 24px -5px rgba(0, 174, 239, 0.25);
+}
+
+/* 3D Black Card - Pure Pitch Black Interior with 3D Depth */
+.black-card-3d {
+  position: relative;
+  background-color: #000000;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.95), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.black-card-3d:hover {
+  transform: translateY(-6px) scale(1.015);
+}
+
+/* Specific Edge Light Colors for Individual Boxes on Hover */
+.edge-glow-cyan:hover {
+  border-color: #00AEEF !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 24px rgba(0, 174, 239, 0.45), inset 0 1px 0 0 rgba(0, 174, 239, 0.3) !important;
+}
+
+.edge-glow-purple:hover {
+  border-color: #A855F7 !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 24px rgba(168, 85, 247, 0.45), inset 0 1px 0 0 rgba(168, 85, 247, 0.3) !important;
+}
+
+.edge-glow-emerald:hover {
+  border-color: #10B981 !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 24px rgba(16, 185, 129, 0.45), inset 0 1px 0 0 rgba(16, 185, 129, 0.3) !important;
+}
+
+.edge-glow-rose:hover {
+  border-color: #F43F5E !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 24px rgba(244, 63, 94, 0.45), inset 0 1px 0 0 rgba(244, 63, 94, 0.3) !important;
+}
+
+.edge-glow-amber:hover {
+  border-color: #F59E0B !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 24px rgba(245, 158, 11, 0.45), inset 0 1px 0 0 rgba(245, 158, 11, 0.3) !important;
+}
+
+.edge-glow-blue:hover {
+  border-color: #3B82F6 !important;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 24px rgba(59, 130, 246, 0.45), inset 0 1px 0 0 rgba(59, 130, 246, 0.3) !important;
+}
+
+
+/* Light mode overrides for Paytm White Theme cards */
+.light .fintech-card,
+.light .black-card-3d {
+  background-color: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid rgb(var(--slate-800));
+  box-shadow: var(--shadow-fintech-md);
+}
+
+.light .fintech-card-hover:hover {
+  border-color: rgb(var(--emerald-500) / 0.7);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-fintech-lg), 0 0 16px -3px rgba(0, 186, 242, 0.25);
+}
+
+.light .edge-glow-cyan:hover,
+.light .edge-glow-purple:hover,
+.light .edge-glow-emerald:hover,
+.light .edge-glow-rose:hover,
+.light .edge-glow-amber:hover,
+.light .edge-glow-blue:hover {
+  box-shadow: var(--shadow-fintech-lg), 0 0 16px -3px rgba(0, 186, 242, 0.25) !important;
+}
+
+
+
+/* Smooth theme switching */
+.theme-transition,
+.theme-transition * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navigation & Interactive Keyframes */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(0, 174, 239, 0.2), inset 0 0 6px rgba(0, 174, 239, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(0, 174, 239, 0.45), inset 0 0 10px rgba(0, 174, 239, 0.25);
+  }
+}
+
+@keyframes borderGlowPulse {
+  0%, 100% { border-color: rgba(0, 174, 239, 0.35); }
+  50% { border-color: rgba(0, 174, 239, 0.85); }
+}
+
+@keyframes verticalBeam {
+  0% {
+    transform: translateY(-100%);
     opacity: 0;
-    transform: translateY(3px);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1000%);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmerWave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: rotate(360deg);
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
 }
+
+.animate-border-glow {
+  animation: borderGlowPulse 2.5s ease-in-out infinite;
+}
+
+.animate-vertical-beam {
+  animation: verticalBeam 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+.animate-subtle-float {
+  animation: subtleFloat 4s ease-in-out infinite;
+}
+
 
 /* Print specific styles */
 @media print {
@@ -54,5 +412,17 @@
   }
   header, footer, button, nav {
     display: none !important;
+  }
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

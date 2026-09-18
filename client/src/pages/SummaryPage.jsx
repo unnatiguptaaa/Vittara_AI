@@ -13,14 +13,14 @@ export default function SummaryPage() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/70 px-2.5 py-1 rounded-full border border-emerald-500/40">
             Real Session Record
           </span>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-2 flex items-center gap-2">
-            <ReceiptText className="w-8 h-8 text-emerald-600" />
+          <h1 className="text-3xl font-black text-ivory tracking-tight mt-2 flex items-center gap-2">
+            <ReceiptText className="w-8 h-8 text-emerald-400" />
             {t.nav.summary}
           </h1>
-          <p className="text-sm text-slate-600 mt-1">
+          <p className="text-sm text-ivory-subtle mt-1">
             Zero placeholder numbers. This summary uses the exact values calculated during your active session journey.
           </p>
         </div>

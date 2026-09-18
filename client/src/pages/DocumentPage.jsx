@@ -96,20 +96,20 @@ export default function DocumentPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <div>
-        <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+        <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/70 px-2.5 py-1 rounded-full border border-emerald-500/40">
           Document Intelligence & Strict Extraction
         </span>
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-2 flex items-center gap-2">
-          <FileText className="w-8 h-8 text-emerald-600" />
+        <h1 className="text-3xl font-black text-ivory tracking-tight mt-2 flex items-center gap-2">
+          <FileText className="w-8 h-8 text-emerald-400" />
           {t.nav.documents}
         </h1>
-        <p className="text-sm text-slate-600 mt-1 max-w-2xl">
+        <p className="text-sm text-ivory-subtle mt-1 max-w-2xl">
           Upload loan sanction letters, policy schedules, or bank agreements (PDF, TXT). Vittara AI extracts text and uses Google Gemini to audit key financial figures and terms with strict rules: missing fields are explicitly flagged as <em>"Not found in document."</em>
         </p>
       </div>
 
       {/* Upload Box Card */}
-      <Card className="p-8 bg-white border-slate-200 text-center shadow-sm">
+      <Card className="p-8 border-slate-700 text-center">
         <input
           type="file"
           ref={fileInputRef}
@@ -120,21 +120,21 @@ export default function DocumentPage() {
 
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-8 cursor-pointer transition-all bg-slate-50/50 hover:bg-slate-50 group"
+          className="border-2 border-dashed border-slate-600 hover:border-emerald-500 rounded-2xl p-8 cursor-pointer transition-all bg-midnight-950/60 hover:bg-midnight-900/80 group"
         >
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 mx-auto flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 mx-auto flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
             <Upload className="w-7 h-7" />
           </div>
 
-          <h3 className="text-base font-bold text-slate-900">
+          <h3 className="text-base font-bold text-ivory">
             {file ? file.name : 'Click to Browse or Drag Document Here'}
           </h3>
-          <p className="text-xs text-slate-500 mt-1">
-            Supported formats: <strong className="text-slate-700">PDF, TXT</strong> • Maximum file size: <strong className="text-slate-700">5MB</strong>
+          <p className="text-xs text-ivory-subtle mt-1">
+            Supported formats: <strong className="text-emerald-300">PDF, TXT</strong> • Maximum file size: <strong className="text-emerald-300">5MB</strong>
           </p>
 
           {file && (
-            <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+            <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-xs font-semibold">
               <FileCheck className="w-3.5 h-3.5" />
               <span>{(file.size / 1024).toFixed(1)} KB ready for audit</span>
             </div>
@@ -179,39 +179,39 @@ export default function DocumentPage() {
 
       {/* Analysis Result Display */}
       {analysisResult && !isLoading && (
-        <Card className="p-6 md:p-8 bg-white border-slate-200 shadow-sm space-y-6 animate-fadeIn">
+        <Card className="p-6 md:p-8 border-slate-700 space-y-6 animate-fadeIn">
           {/* Header Info */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-700/80">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/70 px-2 py-0.5 rounded-full border border-emerald-500/40">
                 Audited Document Result
               </span>
-              <h3 className="text-xl font-black text-slate-900 mt-1">
+              <h3 className="text-xl font-black text-ivory mt-1">
                 {analysisResult.filename}
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Format: <strong className="text-slate-700">{analysisResult.fileType}</strong> • Extracted: <strong className="text-slate-700">{analysisResult.wordCount} words</strong> ({analysisResult.charCount} characters)
+              <p className="text-xs text-ivory-subtle mt-0.5">
+                Format: <strong className="text-emerald-300">{analysisResult.fileType}</strong> • Extracted: <strong className="text-emerald-300">{analysisResult.wordCount} words</strong> ({analysisResult.charCount} characters)
               </p>
             </div>
 
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-midnight-950/70 border border-slate-700 text-xs text-ivory-subtle">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               <span>Auditor: {analysisResult.source === 'gemini-3.8-flash' ? 'Gemini 3.8 Flash' : 'Strict Local Auditor'}</span>
             </div>
           </div>
 
           {/* Structured Analysis Content */}
-          <div className="max-w-none text-sm leading-relaxed text-slate-800 bg-slate-50 p-6 rounded-2xl border border-slate-200 whitespace-pre-line font-sans">
+          <div className="max-w-none text-sm leading-relaxed text-slate-300 bg-midnight-950/70 p-6 rounded-2xl border border-slate-700 whitespace-pre-line font-sans">
             {analysisResult.analysis}
           </div>
 
           {/* Raw Text Preview Accordion */}
           {analysisResult.extractedTextPreview && (
-            <details className="text-xs border-t border-slate-100 pt-4">
-              <summary className="cursor-pointer text-slate-500 hover:text-slate-800 font-semibold select-none">
+            <details className="text-xs border-t border-slate-700/80 pt-4">
+              <summary className="cursor-pointer text-ivory-subtle hover:text-ivory font-semibold select-none">
                 View Extracted Text Feed ({analysisResult.charCount} characters)
               </summary>
-              <pre className="mt-3 p-4 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700 font-mono whitespace-pre-wrap overflow-x-auto max-h-48">
+              <pre className="mt-3 p-4 rounded-xl bg-midnight-950/70 border border-slate-700 text-[11px] text-slate-300 font-mono whitespace-pre-wrap overflow-x-auto max-h-48">
                 {analysisResult.extractedTextPreview}
               </pre>
             </details>

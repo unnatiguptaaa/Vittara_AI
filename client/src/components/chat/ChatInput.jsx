@@ -42,8 +42,8 @@ export default function ChatInput({ onSendMessage, isLoading, onClearChat, onNew
     <div className="space-y-3 pt-2">
       {/* Suggestion Chips */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
-        <span className="text-slate-500 flex items-center gap-1 shrink-0 font-medium">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+        <span className="text-ivory-subtle flex items-center gap-1 shrink-0 font-medium">
+          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
           <span>Suggestions:</span>
         </span>
         {currentSuggestions.map((item, idx) => (
@@ -52,7 +52,7 @@ export default function ChatInput({ onSendMessage, isLoading, onClearChat, onNew
             type="button"
             onClick={() => onSendMessage(item)}
             disabled={isLoading}
-            className="shrink-0 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 hover:text-emerald-700 hover:border-emerald-400 shadow-xs transition-colors text-left"
+            className="shrink-0 px-3 py-1.5 rounded-full bg-midnight-800 border border-slate-700 text-slate-300 hover:text-emerald-300 hover:border-emerald-500 transition-colors text-left"
           >
             {item}
           </button>
@@ -74,7 +74,7 @@ export default function ChatInput({ onSendMessage, isLoading, onClearChat, onNew
                 : 'Ask Vittara AI anything about loans, EMI, terms, or insurance...'
             }
             disabled={isLoading}
-            className="w-full bg-white border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 text-sm text-slate-900 placeholder-slate-400 rounded-xl px-4 py-3 pr-12 transition-all outline-none shadow-xs"
+            className="w-full bg-midnight-950/90 border border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm text-ivory placeholder-slate-500 rounded-xl px-4 py-3 pr-12 transition-all outline-none shadow-inner"
           />
           <button
             type="submit"
@@ -92,7 +92,7 @@ export default function ChatInput({ onSendMessage, isLoading, onClearChat, onNew
             onClick={onNewChat}
             disabled={isLoading}
             title={t.actions.newChat}
-            className="p-3 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-emerald-700 hover:border-slate-300 shadow-xs transition-colors"
+            className="p-3 rounded-xl bg-midnight-800 border border-slate-700 text-slate-300 hover:text-emerald-400 hover:border-emerald-500/50 transition-colors"
           >
             <PlusCircle className="w-4 h-4" />
           </button>
@@ -101,7 +101,7 @@ export default function ChatInput({ onSendMessage, isLoading, onClearChat, onNew
             onClick={onClearChat}
             disabled={isLoading}
             title={t.actions.clearChat}
-            className="p-3 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-rose-600 hover:border-slate-300 shadow-xs transition-colors"
+            className="p-3 rounded-xl bg-midnight-800 border border-slate-700 text-slate-300 hover:text-rose-400 hover:border-rose-500/50 transition-colors"
           >
             <Trash2 className="w-4 h-4" />
           </button>

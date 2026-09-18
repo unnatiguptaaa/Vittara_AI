@@ -12,20 +12,20 @@ export default function ChatMessage({ message }) {
     return lines.map((line, idx) => {
       // Headers
       if (line.startsWith('### ')) {
-        return <h4 key={idx} className="text-sm font-bold text-emerald-800 mt-2 mb-1">{line.replace('### ', '')}</h4>;
+        return <h4 key={idx} className="text-sm font-bold text-emerald-300 mt-2 mb-1">{line.replace('### ', '')}</h4>;
       }
       if (line.startsWith('## ')) {
-        return <h3 key={idx} className="text-base font-bold text-slate-900 mt-3 mb-1.5">{line.replace('## ', '')}</h3>;
+        return <h3 key={idx} className="text-base font-bold text-emerald-200 mt-3 mb-1.5">{line.replace('## ', '')}</h3>;
       }
       if (line.startsWith('# ')) {
-        return <h2 key={idx} className="text-lg font-extrabold text-slate-900 mt-3 mb-2">{line.replace('# ', '')}</h2>;
+        return <h2 key={idx} className="text-lg font-extrabold text-ivory mt-3 mb-2">{line.replace('# ', '')}</h2>;
       }
 
       // Bullet points
       if (line.startsWith('- ') || line.startsWith('* ')) {
         const text = line.substring(2);
         return (
-          <li key={idx} className="ml-4 list-disc text-slate-700 text-sm my-0.5">
+          <li key={idx} className="ml-4 list-disc text-slate-300 text-sm my-0.5">
             {formatInlineText(text)}
           </li>
         );
@@ -37,7 +37,7 @@ export default function ChatMessage({ message }) {
       }
 
       return (
-        <p key={idx} className="text-sm text-slate-800 leading-relaxed my-1">
+        <p key={idx} className="text-sm text-ivory-muted leading-relaxed my-1">
           {formatInlineText(line)}
         </p>
       );
@@ -56,7 +56,7 @@ export default function ChatMessage({ message }) {
         parts.push(text.substring(lastIndex, match.index));
       }
       parts.push(
-        <strong key={match.index} className="font-semibold text-slate-950">
+        <strong key={match.index} className="font-bold text-emerald-300">
           {match[1]}
         </strong>
       );
@@ -77,19 +77,19 @@ export default function ChatMessage({ message }) {
       )}
 
       <div
-        className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-4 shadow-xs ${
+        className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-4 ${
           isUser
-            ? 'bg-emerald-600 text-white rounded-tr-none'
-            : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none'
+            ? 'bg-emerald-600 text-white rounded-tr-none shadow-fintech-md'
+            : 'bg-midnight-800/80 border border-slate-700 text-ivory rounded-tl-none shadow-fintech-sm'
         }`}
       >
         {/* Tool badges if executed */}
         {!isUser && message.toolCalls && message.toolCalls.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-2.5 pb-2 border-b border-slate-100">
+          <div className="flex flex-wrap gap-1.5 mb-2.5 pb-2 border-b border-slate-700/80">
             {message.toolCalls.map((tool, idx) => (
               <span
                 key={idx}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-950/70 text-emerald-300 border border-emerald-500/40"
               >
                 <Wrench className="w-3 h-3" />
                 <span>Tool: {tool}()</span>
@@ -104,18 +104,18 @@ export default function ChatMessage({ message }) {
 
         {/* Source metadata tag */}
         {!isUser && message.source && (
-          <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+          <div className="mt-2.5 pt-2 border-t border-slate-700/80 flex items-center justify-between text-[10px] text-ivory-dark">
             <span className="flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-emerald-600" />
+              <Sparkles className="w-3 h-3 text-emerald-400" />
               <span>{message.source === 'gemini-3.8-flash' ? 'Google Gemini 3.8 Flash' : 'Vittara AI Engine'}</span>
             </span>
-            {message.warning && <span className="text-amber-600">{message.warning}</span>}
+            {message.warning && <span className="text-amber-400 font-medium">{message.warning}</span>}
           </div>
         )}
       </div>
 
       {isUser && (
-        <div className="w-8 h-8 rounded-xl bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-700 shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-emerald-700 border border-emerald-500/40 flex items-center justify-center text-white shrink-0">
           <User className="w-4 h-4" />
         </div>
       )}

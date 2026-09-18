@@ -151,20 +151,20 @@ export default function ChatPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 flex flex-col h-[calc(100vh-8rem)]">
       {/* Header Info */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-700/80">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700">
+          <div className="p-2 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <h1 className="text-base font-bold text-ivory flex items-center gap-2">
               Vittara AI Chat Assistant
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-950/70 text-emerald-400 border border-emerald-500/30">
                 Multi-Turn
               </span>
             </h1>
-            <p className="text-xs text-slate-500">
-              Active Language: <strong className="text-emerald-700">{language}</strong> • Real-time Application Tools Enabled
+            <p className="text-xs text-ivory-subtle">
+              Active Language: <strong className="text-emerald-300">{language}</strong> • Real-time Application Tools Enabled
             </p>
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function ChatPage() {
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-white border border-slate-200 shadow-xs rounded-2xl rounded-tl-none p-4 max-w-[80%]">
+            <div className="bg-midnight-800/80 border border-slate-700 shadow-fintech-md rounded-2xl rounded-tl-none p-4 max-w-[80%]">
               <LoadingState message="Vittara AI is reasoning and executing tools..." />
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function ChatPage() {
       )}
 
       {/* Input Area */}
-      <div className="border-t border-slate-200 pt-2">
+      <div className="border-t border-slate-700/80 pt-2">
         <ChatInput
           onSendMessage={handleSendMessage}
           isLoading={isLoading}

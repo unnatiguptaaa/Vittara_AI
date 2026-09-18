@@ -33,7 +33,7 @@ export default function InsurancePage() {
       setInsurances(response.data?.data || []);
     } catch (err) {
       console.error('Insurance fetch error:', err);
-      setError('Financial data could not be loaded.');
+      setError('Policy catalog could not be loaded.');
     } finally {
       setIsLoading(false);
     }
@@ -49,43 +49,35 @@ export default function InsurancePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       <div>
-        <span className="text-[11px] font-bold uppercase tracking-wider text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
-          MongoDB Policy Catalog & Underwriting
-        </span>
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-2 flex items-center gap-2">
-          <ShieldCheck className="w-8 h-8 text-teal-600" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight-800 border border-slate-700/80 text-xs font-medium text-teal-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+          <span>IRDAI Policy Audit & Fine-Print Engine</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-ivory tracking-tight mt-2.5 flex items-center gap-2.5">
+          <ShieldCheck className="w-7 h-7 text-teal-400" />
           {t.nav.insurance}
         </h1>
-        <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-          Search and inspect real insurance plans loaded directly from MongoDB. Review real deductibles, waiting periods, coverage limits, and explicit exclusions before selecting a policy.
+        <p className="text-xs sm:text-sm text-ivory-subtle mt-1 max-w-2xl leading-relaxed">
+          Transparent breakdown of health, term life, and motor policies. Audit deductibles, waiting periods, sub-limits, and critical claim exclusions.
         </p>
       </div>
 
-      {/* Search and Filters Bar */}
-      <Card className="p-5 bg-white border-slate-200 shadow-sm">
-        <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-4">
-          <div className="flex-1 w-full">
-            <Input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by policy name or insurer (e.g. Care Shield, Max Life, Star Health)..."
-              prefix={<Search className="w-4 h-4 text-slate-400" />}
-            />
-          </div>
-
-          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
+      {/* Filter and Search Bar */}
+      <Card className="p-5 sm:p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          {/* Category Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setCategory(cat)}
-                className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   category === cat
-                    ? 'bg-emerald-600 text-white shadow-xs font-bold'
-                    : 'bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/40 shadow-fintech-sm font-semibold'
+                    : 'bg-midnight-950/70 text-slate-400 hover:text-ivory border border-slate-800 hover:border-slate-700'
                 }`}
               >
                 {cat}
@@ -93,34 +85,42 @@ export default function InsurancePage() {
             ))}
           </div>
 
-          <Button type="submit" size="md" icon={Search} className="w-full md:w-auto">
-            Search
-          </Button>
-        </form>
+          {/* Search Input */}
+          <form onSubmit={handleSearch} className="flex items-center gap-2 w-full md:w-80">
+            <Input
+              type="text"
+              placeholder="Search provider, plan, or term..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              prefix={<Search className="w-4 h-4 text-slate-400" />}
+              className="flex-1"
+            />
+            <Button type="submit" size="md" variant="secondary">
+              Search
+            </Button>
+          </form>
+        </div>
       </Card>
 
-      {/* Loading State */}
-      {isLoading && <LoadingState message="Loading policy records from database..." />}
+      {/* Loading / Error States */}
+      {isLoading && <LoadingState message="Loading verified insurance catalog..." />}
+      {error && <ErrorState title="Unable to Load Policies" message={error} onRetry={fetchInsurance} />}
 
-      {/* Error State */}
-      {error && <ErrorState title="Database Query Notice" message={error} onRetry={fetchInsurance} />}
-
-      {/* Insurance Cards Grid */}
+      {/* Policies Grid */}
       {!isLoading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-          {insurances.map((item) => (
-            <InsuranceCard
-              key={item._id || item.id}
-              insurance={item}
-            />
-          ))}
-
-          {insurances.length === 0 && (
-            <div className="col-span-full py-12 text-center text-slate-400">
-              No matching demo insurance products found in MongoDB.
+        <>
+          {insurances.length === 0 ? (
+            <div className="text-center py-12 rounded-2xl bg-midnight-800/40 border border-slate-800">
+              <p className="text-sm text-slate-400">No insurance plans found matching your filter.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {insurances.map((policy) => (
+                <InsuranceCard key={policy._id || policy.id} insurance={policy} />
+              ))}
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

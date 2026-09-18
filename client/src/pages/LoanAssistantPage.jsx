@@ -17,10 +17,10 @@ export default function LoanAssistantPage() {
   const navigate = useNavigate();
 
   // 5 required inputs
-  const [amount, setAmount] = useState(journeyData.requestedAmount || 200000);
+  const [amount, setAmount] = useState(journeyData.requestedAmount || 500000);
   const [purpose, setPurpose] = useState(journeyData.purpose || 'Personal');
-  const [monthlyIncome, setMonthlyIncome] = useState(journeyData.monthlyIncome || 50000);
-  const [monthlyExpenses, setMonthlyExpenses] = useState(journeyData.monthlyExpenses || 30000);
+  const [monthlyIncome, setMonthlyIncome] = useState(journeyData.monthlyIncome || 60000);
+  const [monthlyExpenses, setMonthlyExpenses] = useState(journeyData.monthlyExpenses || 25000);
   const [tenure, setTenure] = useState(journeyData.tenureMonths || 36);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +39,6 @@ export default function LoanAssistantPage() {
     if (e) e.preventDefault();
     setError(null);
 
-    // Client validation
     const numAmount = Number(amount);
     const numIncome = Number(monthlyIncome);
     const numExpenses = Number(monthlyExpenses);
@@ -58,7 +57,7 @@ export default function LoanAssistantPage() {
       return;
     }
     if (numExpenses >= numIncome) {
-      setError('Monthly expenses must be less than monthly income to qualify for a loan.');
+      setError('Monthly expenses must be less than monthly income to qualify for an installment.');
       return;
     }
     if (!numTenure || numTenure <= 0) {
@@ -80,7 +79,6 @@ export default function LoanAssistantPage() {
       const data = response.data;
       setResults(data);
 
-      // Automatically update global journey session with actual user values
       const topLoan = data.products && data.products.length > 0 ? data.products[0] : null;
       updateJourney({
         requestedAmount: numAmount,
@@ -107,7 +105,6 @@ export default function LoanAssistantPage() {
   };
 
   const handleSelectProduct = (loanProduct) => {
-    // Find the calculated EMI for this loan
     const match = results?.products?.find(p => (p.product._id || p.product.id) === (loanProduct._id || loanProduct.id));
     if (match) {
       updateJourney({
@@ -124,24 +121,25 @@ export default function LoanAssistantPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Title Header */}
       <div>
-        <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-          Database-Connected Eligibility Engine
-        </span>
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-2 flex items-center gap-2">
-          <BadgePercent className="w-8 h-8 text-emerald-600" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight-800 border border-slate-700/80 text-xs font-medium text-emerald-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>Eligibility & DTI Evaluation Engine</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-ivory tracking-tight mt-2.5 flex items-center gap-2.5">
+          <BadgePercent className="w-7 h-7 text-emerald-400" />
           {t.nav.loans}
         </h1>
-        <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-          Enter your required loan parameters. Our backend validates your criteria, evaluates real debt-to-income (DTI) metrics, and queries real bank loan products directly from MongoDB.
+        <p className="text-xs sm:text-sm text-ivory-subtle mt-1 max-w-2xl leading-relaxed">
+          Enter your income and required parameters. Our engine evaluates your real debt-to-income (DTI) metrics against standard banking eligibility caps.
         </p>
       </div>
 
       {/* 5 Inputs Form */}
       <form onSubmit={handleCalculate}>
-        <Card className="p-6 bg-white border-slate-200 shadow-sm">
+        <Card className="p-6 sm:p-7">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {/* Input 1: Loan Amount */}
             <div>
@@ -151,7 +149,7 @@ export default function LoanAssistantPage() {
                 prefix="₹"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="200000"
+                placeholder="500000"
                 min="10000"
                 step="5000"
                 required
@@ -160,16 +158,16 @@ export default function LoanAssistantPage() {
 
             {/* Input 2: Purpose */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
-                {t.labels.purpose} <span className="text-rose-500">*</span>
+              <label className="block text-xs font-medium uppercase tracking-wider text-slate-300 mb-1.5">
+                {t.labels.purpose} <span className="text-emerald-400">*</span>
               </label>
               <select
                 value={purpose}
                 onChange={(e) => setPurpose(e.target.value)}
-                className="w-full rounded-xl bg-white border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-emerald-600 focus:outline-none shadow-xs"
+                className="w-full rounded-xl bg-midnight-950/70 border border-slate-700/80 px-3.5 py-2.5 text-sm text-ivory focus:border-emerald-500 focus:outline-none transition-colors"
               >
                 {loanPurposes.map(p => (
-                  <option key={p.value} value={p.value}>{p.label}</option>
+                  <option key={p.value} value={p.value} className="bg-midnight-900 text-ivory">{p.label}</option>
                 ))}
               </select>
             </div>
@@ -182,7 +180,7 @@ export default function LoanAssistantPage() {
                 prefix="₹"
                 value={monthlyIncome}
                 onChange={(e) => setMonthlyIncome(e.target.value)}
-                placeholder="50000"
+                placeholder="60000"
                 min="1000"
                 required
               />
@@ -196,7 +194,7 @@ export default function LoanAssistantPage() {
                 prefix="₹"
                 value={monthlyExpenses}
                 onChange={(e) => setMonthlyExpenses(e.target.value)}
-                placeholder="30000"
+                placeholder="25000"
                 min="0"
                 required
               />
@@ -218,14 +216,15 @@ export default function LoanAssistantPage() {
             </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-            <div className="text-xs text-slate-500">
-              Test preset: <button type="button" onClick={() => { setAmount(200000); setMonthlyIncome(50000); setMonthlyExpenses(30000); setTenure(36); }} className="text-emerald-700 font-medium underline hover:text-emerald-800">₹2L @ 36mo, ₹50k Income / ₹30k Expenses</button>
+          <div className="mt-6 pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
+            <div className="text-xs text-ivory-dark">
+              Preset: <button type="button" onClick={() => { setAmount(500000); setMonthlyIncome(60000); setMonthlyExpenses(25000); setTenure(36); }} className="text-emerald-400 underline hover:text-emerald-300 font-mono">₹5L @ 36mo, ₹60k Income / ₹25k Expenses</button>
             </div>
 
             <Button
               type="submit"
               size="lg"
+              variant="primary"
               isLoading={isLoading}
               icon={Search}
               className="w-full sm:w-auto"
@@ -247,33 +246,33 @@ export default function LoanAssistantPage() {
 
       {/* Loading state */}
       {isLoading && (
-        <LoadingState message="Connecting to MongoDB and calculating loan amortization..." />
+        <LoadingState message="Connecting to banking database and calculating loan amortization..." />
       )}
 
       {/* Results Display */}
       {results && !isLoading && (
         <div className="space-y-6 animate-fadeIn">
           {/* Summary Banner */}
-          <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 flex flex-wrap items-center justify-between gap-4 shadow-xs">
+          <div className="p-5 sm:p-6 rounded-2xl bg-midnight-800/90 border border-emerald-500/40 shadow-fintech-md flex flex-wrap items-center justify-between gap-4">
             <div>
-              <span className="text-xs text-emerald-700 font-bold uppercase tracking-wider">
-                Calculation Completed
+              <span className="text-xs text-emerald-400 font-mono font-medium uppercase tracking-wider block">
+                Analysis Completed
               </span>
-              <h3 className="text-xl font-bold text-slate-900 mt-0.5">
-                Top Calculated EMI: <span className="text-emerald-700 font-extrabold">₹{results.summary?.topEmi?.toLocaleString('en-IN')}/month</span>
+              <h3 className="text-lg sm:text-xl font-bold text-ivory mt-0.5">
+                Top Qualified Monthly EMI: <span className="text-emerald-400 font-extrabold font-mono">₹{results.summary?.topEmi?.toLocaleString('en-IN')}</span> /mo
               </h3>
-              <p className="text-xs text-slate-600">
-                Found {results.products?.length} matching market bank loans in MongoDB. {results.summary?.eligibleCount} meet your DTI threshold.
+              <p className="text-xs text-ivory-subtle mt-0.5">
+                Evaluated {results.products?.length} products. {results.summary?.eligibleCount} match your calculated debt-to-income limits.
               </p>
             </div>
 
             <Button
               size="sm"
-              variant="outline"
+              variant="secondary"
               icon={ArrowRight}
               onClick={() => navigate('/summary')}
             >
-              View Active Session Summary
+              View Financial Summary
             </Button>
           </div>
 

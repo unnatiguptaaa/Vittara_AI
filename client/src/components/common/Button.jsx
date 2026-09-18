@@ -13,20 +13,20 @@ export default function Button({
   icon: Icon = null,
   ...props
 }) {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98]';
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-midnight-900 disabled:opacity-40 disabled:cursor-not-allowed select-none active:scale-[0.98]';
 
   const sizeStyles = {
     sm: 'px-3 py-1.5 text-xs gap-1.5',
     md: 'px-4 py-2.5 text-sm gap-2',
-    lg: 'px-6 py-3.5 text-base gap-2.5 shadow-lg',
+    lg: 'px-5 py-3 text-sm gap-2.5 font-semibold',
   };
 
   const variantStyles = {
-    primary: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm hover:shadow focus:ring-emerald-500',
-    secondary: 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 shadow-xs focus:ring-slate-400',
-    outline: 'border border-emerald-600 text-emerald-700 hover:bg-emerald-50 focus:ring-emerald-500',
-    ghost: 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:ring-slate-400',
-    danger: 'bg-rose-600 hover:bg-rose-700 text-white focus:ring-rose-500 shadow-sm',
+    primary: 'bg-gradient-to-b from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 text-white shadow-fintech-emerald border border-emerald-400/20 focus:ring-emerald-500/50',
+    secondary: 'bg-midnight-800 hover:bg-midnight-750 text-slate-300 border border-slate-700/70 hover:border-slate-600 shadow-fintech-sm focus:ring-slate-500/30',
+    outline: 'border border-emerald-500/40 text-emerald-400 hover:bg-emerald-950/40 hover:border-emerald-400 focus:ring-emerald-500/30',
+    ghost: 'text-slate-400 hover:text-ivory hover:bg-slate-200/50 focus:ring-slate-500/20',
+    danger: 'bg-rose-900/60 hover:bg-rose-800/80 text-rose-200 border border-rose-700/50 shadow-fintech-sm focus:ring-rose-500/30',
   };
 
   return (
@@ -44,7 +44,7 @@ export default function Button({
         </>
       ) : (
         <>
-          {Icon && <Icon className="w-4 h-4" />}
+          {Icon && <Icon className="w-4 h-4 shrink-0" />}
           {children}
         </>
       )}

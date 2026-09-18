@@ -14,24 +14,24 @@ export default function ComparisonTable({ comparisonData, onSelectWinner = null 
     <div className="space-y-6">
       {/* Dynamic Highlights Header */}
       {highlights && (
-        <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex flex-wrap items-center justify-between gap-4 shadow-xs">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700">
+        <div className="p-5 rounded-2xl bg-midnight-800 border border-emerald-500/40 flex flex-wrap items-center justify-between gap-4 shadow-fintech-sm">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">AI Comparison Insights</h4>
-              <p className="text-xs text-slate-600">
-                Rate variance: <strong className="text-emerald-700">{highlights.rateDiff}%</strong> • Monthly savings potential: <strong className="text-emerald-700">₹{highlights.monthlySaving.toLocaleString('en-IN')}/mo</strong>
+              <h4 className="text-sm font-bold text-ivory">Comparison Analysis</h4>
+              <p className="text-xs text-ivory-subtle">
+                Rate variance: <strong className="text-emerald-400 font-mono">{highlights.rateDiff}%</strong> • Monthly savings potential: <strong className="text-emerald-400 font-mono">₹{highlights.monthlySaving.toLocaleString('en-IN')}/mo</strong>
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs">
-            <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 shadow-xs">
-              Lowest Rate: <strong className="text-emerald-700">{highlights.lowestRate}</strong>
+            <span className="px-2.5 py-1 rounded-lg bg-midnight-950 border border-slate-800 text-slate-300 font-mono">
+              Lowest Rate: <strong className="text-emerald-400">{highlights.lowestRate}</strong>
             </span>
-            <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 shadow-xs">
-              Lowest Fee: <strong className="text-teal-700">{highlights.lowestFee}</strong>
+            <span className="px-2.5 py-1 rounded-lg bg-midnight-950 border border-slate-800 text-slate-300 font-mono">
+              Lowest Fee: <strong className="text-teal-400">{highlights.lowestFee}</strong>
             </span>
           </div>
         </div>
@@ -48,13 +48,13 @@ export default function ComparisonTable({ comparisonData, onSelectWinner = null 
               <Card
                 key={c.product._id || idx}
                 highlight={isLowestRate}
-                className="flex flex-col justify-between bg-white border-slate-200 shadow-xs"
+                className="flex flex-col justify-between"
               >
                 <div>
                   {/* Top Badge */}
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                      Verified Bank Product
+                    <span className="text-[10px] uppercase font-mono font-medium text-emerald-400 bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-500/30">
+                      Verified Product
                     </span>
                     {isLowestRate && (
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-600 text-white shadow-xs flex items-center gap-1">
@@ -63,89 +63,77 @@ export default function ComparisonTable({ comparisonData, onSelectWinner = null 
                     )}
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-900 line-clamp-1">{c.product.name}</h3>
-                  <p className="text-xs text-slate-500 mb-4">{c.product.bank}</p>
+                  <h3 className="text-base font-bold text-ivory line-clamp-1">{c.product.name}</h3>
+                  <p className="text-xs text-ivory-subtle mb-4">{c.product.bank}</p>
 
                   {/* Metrics List */}
-                  <div className="space-y-3 text-xs divide-y divide-slate-100">
+                  <div className="space-y-3 text-xs divide-y divide-slate-800/80 font-mono">
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-slate-500">Interest Rate</span>
-                      <span className={`font-bold ${isLowestRate ? 'text-emerald-700 text-sm' : 'text-slate-900'}`}>
+                      <span className="text-ivory-dark font-sans text-xs">Interest Rate</span>
+                      <span className={`font-bold ${isLowestRate ? 'text-emerald-400 text-sm' : 'text-ivory'}`}>
                         {c.interestRate}% p.a.
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-slate-500">Monthly EMI</span>
-                      <span className="font-extrabold text-slate-900 text-sm">
+                      <span className="text-ivory-dark font-sans text-xs">Monthly EMI</span>
+                      <span className="font-bold text-ivory text-sm">
                         ₹{c.monthlyEmi.toLocaleString('en-IN')}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-slate-500">Processing Fee</span>
-                      <span className={`font-medium ${isLowestFee ? 'text-teal-700 font-semibold' : 'text-slate-800'}`}>
+                      <span className="text-ivory-dark font-sans text-xs">Processing Fee</span>
+                      <span className={`font-medium ${isLowestFee ? 'text-teal-400' : 'text-slate-300'}`}>
                         ₹{c.processingFee.toLocaleString('en-IN')}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-slate-500">Total Interest</span>
-                      <span className="font-medium text-slate-800">
+                      <span className="text-ivory-dark font-sans text-xs">Total Interest</span>
+                      <span className="font-medium text-gold-400">
                         ₹{c.totalInterest.toLocaleString('en-IN')}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-slate-500">Total Repayment</span>
-                      <span className="font-bold text-slate-900">
+                      <span className="text-ivory-dark font-sans text-xs">Total Repayment</span>
+                      <span className="font-bold text-ivory">
                         ₹{c.totalPayment.toLocaleString('en-IN')}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center pt-2">
-                      <span className="text-slate-500">Estimated Total Cost</span>
-                      <span className="font-extrabold text-emerald-600">
-                        ₹{c.estimatedTotalCost.toLocaleString('en-IN')}
-                      </span>
-                    </div>
-
-                    <div className="pt-2">
-                      <span className="text-slate-500 block mb-1">Pre-closure Policy</span>
-                      <span className="text-[11px] text-slate-600 leading-tight block">
-                        {c.preClosureCharges}
-                      </span>
-                    </div>
-
-                    <div className="pt-2">
-                      <span className="text-slate-500 block mb-1">Key Conditions</span>
-                      <span className="text-[11px] text-slate-600 leading-tight block">
-                        {c.conditions}
+                      <span className="text-ivory-dark font-sans text-xs">Pre-closure Terms</span>
+                      <span className="font-sans text-[11px] text-slate-400 text-right max-w-[140px] truncate">
+                        {c.product.preClosurePenalty || 'Nil charges'}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Apply / Choose for Journey */}
-                <div className="mt-6 pt-3 border-t border-slate-100">
+                {/* Bottom Action */}
+                <div className="pt-4 mt-4 border-t border-slate-800">
                   <Button
                     size="sm"
                     variant={isLowestRate ? 'primary' : 'secondary'}
-                    className="w-full"
+                    className="w-full text-xs"
                     onClick={() => {
-                      updateJourney({
-                        selectedProduct: c.product,
-                        interestRate: c.interestRate,
-                        monthlyEmi: c.monthlyEmi,
-                        totalInterest: c.totalInterest,
-                        totalPayment: c.totalPayment,
-                        processingFee: c.processingFee,
-                        estimatedTotalCost: c.estimatedTotalCost
-                      });
                       if (onSelectWinner) onSelectWinner(c.product);
+                      else {
+                        updateJourney({
+                          selectedProduct: c.product,
+                          interestRate: c.interestRate,
+                          monthlyEmi: c.monthlyEmi,
+                          totalInterest: c.totalInterest,
+                          totalPayment: c.totalPayment,
+                          processingFee: c.processingFee,
+                          estimatedTotalCost: c.estimatedTotalCost
+                        });
+                      }
                     }}
                   >
-                    Select for Financial Journey
+                    Select This Product
                   </Button>
                 </div>
               </Card>
