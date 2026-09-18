@@ -1,6 +1,9 @@
 import { GoogleGenAI } from '@google/genai';
 import { applicationTools } from './toolService.js';
 
+// Active Gemini model (configurable via GEMINI_MODEL in .env).
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
+
 // Active chat sessions memory store
 const chatSessions = new Map();
 
@@ -242,7 +245,7 @@ export async function sendChatMessage({ message, sessionId, language = 'English'
     });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: GEMINI_MODEL,
       contents,
       config: {
         systemInstruction: { parts: [{ text: systemInstruction }] },
@@ -340,7 +343,7 @@ Format your response with:
 4. Everyday Analogy`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: GEMINI_MODEL,
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
       config: {
         temperature: 0.2,
@@ -385,7 +388,7 @@ export async function analyzeDocumentWithGemini({ documentText, language = 'Engl
     const prompt = buildDocumentAnalysisPrompt(documentText, language);
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: GEMINI_MODEL,
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
       config: {
         temperature: 0.1, // Strict factual extraction
