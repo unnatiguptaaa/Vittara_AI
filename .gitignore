@@ -1,0 +1,6 @@
+node_modules/
+.env
+dist/
+build/
+server/config/serviceAccountKey.json
+.port.json
