@@ -1,4 +1,4 @@
-import { sendChatMessage, clearSession, getSessionHistory } from '../services/geminiService.js';
+import { sendChatMessage, clearSession, getSessionHistory, getAllSessions } from '../services/geminiService.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function handleChat(req, res, next) {
@@ -35,7 +35,7 @@ export async function handleClearChat(req, res, next) {
   try {
     const { sessionId } = req.body;
     if (sessionId) {
-      clearSession(sessionId);
+      await clearSession(sessionId);
     }
     return res.status(200).json({
       success: true,
@@ -49,11 +49,23 @@ export async function handleClearChat(req, res, next) {
 export async function handleGetChatHistory(req, res, next) {
   try {
     const { sessionId } = req.params;
-    const history = getSessionHistory(sessionId);
+    const history = await getSessionHistory(sessionId);
     return res.status(200).json({
       success: true,
       sessionId,
       history
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function handleGetAllSessions(req, res, next) {
+  try {
+    const sessions = await getAllSessions();
+    return res.status(200).json({
+      success: true,
+      sessions
     });
   } catch (error) {
     next(error);

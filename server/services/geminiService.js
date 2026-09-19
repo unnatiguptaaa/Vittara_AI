@@ -4,23 +4,59 @@ import { applicationTools } from './toolService.js';
 // Active Gemini model (configurable via GEMINI_MODEL in .env).
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
 
-// Active chat sessions memory store
-const chatSessions = new Map();
+import { db } from '../config/firebaseAdmin.js';
 
-export function getSessionHistory(sessionId) {
-  if (!sessionId) return [];
-  return chatSessions.get(sessionId) || [];
+export async function getSessionHistory(sessionId) {
+  if (!sessionId || !db) return [];
+  try {
+    const doc = await db.collection('chatSessions').doc(sessionId).get();
+    if (doc.exists) {
+      return doc.data().history || [];
+    }
+  } catch (err) {
+    console.error('Error fetching session history:', err);
+  }
+  return [];
 }
 
-export function saveSessionHistory(sessionId, history) {
-  if (!sessionId) return;
-  chatSessions.set(sessionId, history.slice(-20)); // retain last 20 messages for context
+export async function saveSessionHistory(sessionId, history) {
+  if (!sessionId || !db || history.length === 0) return;
+  try {
+    const title = history.find(h => h.role === 'user')?.content.substring(0, 40) + '...' || 'New Chat';
+
+    await db.collection('chatSessions').doc(sessionId).set({
+      title: title,
+      history: history.slice(-20),
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (err) {
+    console.error('Error saving session history:', err);
+  }
 }
 
-export function clearSession(sessionId) {
-  if (sessionId && chatSessions.has(sessionId)) {
-    chatSessions.delete(sessionId);
-    return true;
+export async function getAllSessions() {
+  if (!db) return [];
+  try {
+    const snapshot = await db.collection('chatSessions').orderBy('updatedAt', 'desc').get();
+    return snapshot.docs.map(doc => ({
+      sessionId: doc.id,
+      title: doc.data().title || 'Chat',
+      updatedAt: doc.data().updatedAt
+    }));
+  } catch (err) {
+    console.error('Error getting all sessions:', err);
+  }
+  return [];
+}
+
+export async function clearSession(sessionId) {
+  if (sessionId && db) {
+    try {
+      await db.collection('chatSessions').doc(sessionId).delete();
+      return true;
+    } catch (err) {
+      console.error('Error clearing session:', err);
+    }
   }
   return false;
 }
@@ -191,7 +227,7 @@ export async function sendChatMessage({ message, sessionId, language = 'English'
   }
 
   const effectiveApiKey = (customApiKey && customApiKey.trim()) || process.env.GEMINI_API_KEY;
-  const history = getSessionHistory(sessionId);
+  const history = await getSessionHistory(sessionId);
 
   // Step 1: AI Orchestrator executes application tools
   const toolResults = await detectAndExecuteTools(message);
@@ -210,11 +246,11 @@ export async function sendChatMessage({ message, sessionId, language = 'English'
   if (!effectiveApiKey) {
     console.log('[GeminiService] No GEMINI_API_KEY detected in environment. Using deterministic fallback.');
     const replyText = generateDeterministicResponse(message, toolResults, language);
-    
+
     // Save to history
     history.push({ role: 'user', content: message });
     history.push({ role: 'assistant', content: replyText });
-    saveSessionHistory(sessionId, history);
+    await saveSessionHistory(sessionId, history);
 
     return {
       text: replyText,
@@ -258,7 +294,7 @@ export async function sendChatMessage({ message, sessionId, language = 'English'
 
     history.push({ role: 'user', content: message });
     history.push({ role: 'assistant', content: replyText });
-    saveSessionHistory(sessionId, history);
+    await saveSessionHistory(sessionId, history);
 
     return {
       text: replyText,
@@ -269,7 +305,7 @@ export async function sendChatMessage({ message, sessionId, language = 'English'
     };
   } catch (error) {
     console.error('[GeminiService] Gemini API call error:', error.message);
-    
+
     // Check if error is network/rate limit, provide required fallback message or local handler
     if (error.status === 401 || error.status === 403 || error.message.includes('API key')) {
       return {

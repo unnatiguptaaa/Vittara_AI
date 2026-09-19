@@ -34,6 +34,7 @@ export const apiService = {
     api.post('/chat', { message, sessionId, language, contextData }),
   clearChat: (sessionId) => api.post('/chat/clear', { sessionId }),
   getChatHistory: (sessionId) => api.get(`/chat/history/${sessionId}`),
+  getAllSessions: () => api.get('/chat/sessions'),
 
   // Loan Assistant & EMI Calculator
   calculateLoan: (data) => api.post('/loan/calculate', data),
